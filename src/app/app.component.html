@@ -1,21 +1,93 @@
-<!--The content below is only a placeholder and can be replaced.-->
-<div style="text-align:center">
-  <h1>
-    Welcome to {{ title }}!
-  </h1>
-  <img width="300" alt="Angular Logo" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNTAgMjUwIj4KICAgIDxwYXRoIGZpbGw9IiNERDAwMzEiIGQ9Ik0xMjUgMzBMMzEuOSA2My4ybDE0LjIgMTIzLjFMMTI1IDIzMGw3OC45LTQzLjcgMTQuMi0xMjMuMXoiIC8+CiAgICA8cGF0aCBmaWxsPSIjQzMwMDJGIiBkPSJNMTI1IDMwdjIyLjItLjFWMjMwbDc4LjktNDMuNyAxNC4yLTEyMy4xTDEyNSAzMHoiIC8+CiAgICA8cGF0aCAgZmlsbD0iI0ZGRkZGRiIgZD0iTTEyNSA1Mi4xTDY2LjggMTgyLjZoMjEuN2wxMS43LTI5LjJoNDkuNGwxMS43IDI5LjJIMTgzTDEyNSA1Mi4xem0xNyA4My4zaC0zNGwxNy00MC45IDE3IDQwLjl6IiAvPgogIDwvc3ZnPg==">
-</div>
-<h2>Here are some links to help you start: </h2>
-<ul>
-  <li>
-    <h2><a target="_blank" rel="noopener" href="https://angular.io/tutorial">Tour of Heroes</a></h2>
-  </li>
-  <li>
-    <h2><a target="_blank" rel="noopener" href="https://angular.io/cli">CLI Documentation</a></h2>
-  </li>
-  <li>
-    <h2><a target="_blank" rel="noopener" href="https://blog.angular.io/">Angular blog</a></h2>
-  </li>
-</ul>
+<div class="jumbotron">
+  <div class="container">
+      <div class="row">
+          <div class="col-md-6 offset-md-3">
+              <!-- <h3>Angular 7 Reactive Form Validation</h3> -->
+              <form [formGroup]="registerForm" >
+                  <div class="form-group">
+                      <label>First Name</label>
+                      <input type="text" formControlName="firstName" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.firstName.errors }" />
+                      <div *ngIf="submitted && f.firstName.errors" class="invalid-feedback">
+                          <div *ngIf="f.firstName.errors.required">First Name is required</div>
+                          <div *ngIf="f.firstName.errors.pattern">Frist latter only Can CAPITAL</div>
+                      </div>
+                  </div>
 
-<router-outlet></router-outlet>
+                  <div class="form-group">
+                    <label for=""> Gender  :</label>
+                    <label>
+                      <input type="radio" value="Male" formControlName="gender">
+                        <span>male</span>
+                    </label>
+                    <label>
+                      <input type="radio" value="Female" formControlName="gender">
+                        <span>female</span>
+                    </label>
+                    
+                </div>
+                <div class="form-group">
+                  <label for=""> Hobby : </label>
+                  <ul>
+                    <li *ngFor="let cat of catControl;let i =index">
+                      <span style="margin-top: -2.5px;" formArrayName="Categories">
+                        <input  [formControlName]="i" id="CheckBox" type="checkbox"  ></span> {{catsList[i].cName}}
+                    </li>
+                  </ul>
+                
+                  <!-- <div *ngIf="f.i.errors">At least one order must be selected</div> -->
+                </div>
+          
+               
+                  <div class="form-group">
+                      <label>Email</label>
+                      <input type="text" formControlName="email" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.email.errors }" />
+                      <div *ngIf="submitted && f.email.errors" class="invalid-feedback">
+                          <div *ngIf="f.email.errors.required">Email is required</div>
+                          <div *ngIf="f.email.errors.email">Email must be a valid email address</div>
+                      </div>
+                  </div>
+
+                  <div class="form-group">
+                      <label>Username</label>
+                      <input type="text" formControlName="username" maxlength="10" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.username.errors }" />
+                      <div *ngIf="submitted && f.username.errors" class="invalid-feedback">
+                          <div *ngIf="f.username.errors.required">username is required</div>
+                          <div *ngIf="f.password.errors.maxlength">Maximal Username is 10</div>
+                      </div>
+                  </div>
+
+                  <div class="form-group">
+                      <label>Phone</label>
+                      <input type="text" formControlName="phone" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.phone.errors }" />
+                      <div *ngIf="submitted && f.phone.errors" class="invalid-feedback">
+                          <div *ngIf="f.phone.errors.required">phone is required</div>
+                          <div *ngIf="f.phone.errors.pattern"> Only accept Numbers </div>
+                      </div>
+                  </div>
+
+                  <div class="form-group">
+                      <label>Password</label>
+                      <input type="password" formControlName="password" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.password.errors }" />
+                      <div *ngIf="submitted && f.password.errors" class="invalid-feedback">
+                          <div *ngIf="f.password.errors.required">Password is required</div>
+                          <div *ngIf="f.password.errors.minlength">Password must be at least 7 characters</div>
+                      </div>
+                  </div>
+                  <div class="form-group">
+                      <button class="btn btn-primary" (click)="onSubmit()">Register</button>
+                      <button class="btn btn-danger" (click)="reset(registerForm)">Reset</button>
+                  </div> 
+                 
+                  <span *ngIf="values">
+                    {{  values.email }}
+                    {{  values.firstName }}
+                    {{ values.lastName }}
+                    {{values.password}}
+                  </span>
+             
+              </form>
+             
+          </div>
+      </div>
+  </div>
+</div>
